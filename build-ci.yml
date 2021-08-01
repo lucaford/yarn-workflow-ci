@@ -1,0 +1,13 @@
+name: Build Project # nombre del workflow
+on: [push] # en que accion se triggerea el workflow. En este caso push pero podria ser, por ejemplo, pull_request.
+jobs: # los procesos que se van a correr
+  build:
+    name: Build # nombre del proceso
+    runs-on: ubuntu-latest # todos estos procesos corren en una maquina virtual que nos provee github. En este caso le pedi que lo corra en la ultima versión que tengan de ubuntu
+    steps:
+      - uses: actions/checkout@v2 # utilizamos una library oficial de github que hace una copia del branch por default (main) en la maquina virtual de ubuntu
+        with:
+          persist-credentials: false # le pido que no persista las credenciales de la library ya que choca con el access token del design system al querer instalarlo y rompe
+      - uses: actions/setup-node@v2 # instalamos el setup de node con una library oficial de github. Esto nos permite utilizar yarn, npm. ppm, etc ...
+      - run: yarn install # corremos yarn install
+      - run: yarn build # corremos yarn build
